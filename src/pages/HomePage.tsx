@@ -48,8 +48,16 @@ export function HomePage() {
 
   return (
     <section className="home">
-      <h1>Product Catalog</h1>
-      <SearchBar value={search} onChange={setSearch} />
+      <div className="home__hero">
+        <h1>Product Catalog</h1>
+        <p>Find clothing, electronics, and more.</p>
+      </div>
+      <SearchBar
+        value={search}
+        onChange={setSearch}
+        resultCount={filteredProducts.length}
+        totalCount={products.length}
+      />
       {filteredProducts.length === 0 ? (
         <p className="home__empty">No products found.</p>
       ) : (

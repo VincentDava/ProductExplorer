@@ -1,9 +1,21 @@
 :root {
-  font-family: system-ui, -apple-system, sans-serif;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --surface-muted: #f8fafc;
+  --border: #e2e8f0;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-soft: rgba(79, 70, 229, 0.1);
+  --shadow: 0 10px 24px -12px rgba(15, 23, 42, 0.18);
+  --radius: 16px;
+
+  font-family: Inter, system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #1a1a2e;
-  background-color: #f8fafc;
+  color: var(--text);
+  background-color: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -23,4 +35,24 @@ body {
 
 #root {
   min-height: 100vh;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #f1f5f9;
+    --text-muted: #94a3b8;
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface-muted: #334155;
+    --border: #334155;
+    --accent: #818cf8;
+    --accent-hover: #6366f1;
+    --accent-soft: rgba(129, 140, 248, 0.16);
+    --shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.55);
+  }
 }

@@ -71,10 +71,12 @@ export function ProductDetailPage() {
         <div className="detail__content">
           <span className="detail__category">{product.category}</span>
           <h1 className="detail__title">{product.title}</h1>
-          <p className="detail__price">${product.price.toFixed(2)}</p>
-          <p className="detail__rating">
-            ★ {product.rating.rate} ({product.rating.count} reviews)
-          </p>
+          <div className="detail__meta">
+            <p className="detail__price">${product.price.toFixed(2)}</p>
+            <p className="detail__rating">
+              ★ {product.rating.rate} ({product.rating.count} reviews)
+            </p>
+          </div>
           <p className="detail__description">{product.description}</p>
         </div>
       </article>
