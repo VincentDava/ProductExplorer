@@ -1,5 +1,7 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { fetchProducts } from '../api/products'
+import { ErrorMessage } from '../components/ErrorMessage'
+import { LoadingSpinner } from '../components/LoadingSpinner'
 import { ProductCard } from '../components/ProductCard'
 import { SearchBar } from '../components/SearchBar'
 import type { Product } from '../types/product'
@@ -8,14 +10,25 @@ import './HomePage.css'
 export function HomePage() {
   const [products, setProducts] = useState<Product[]>([])
   const [search, setSearch] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const loadProducts = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await fetchProducts()
+      setProducts(data)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load products')
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
   useEffect(() => {
-    fetchProducts()
-      .then(setProducts)
-      .catch(() => {
-        setProducts([])
-      })
-  }, [])
+    loadProducts()
+  }, [loadProducts])
 
   const filteredProducts = useMemo(() => {
     const query = search.trim().toLowerCase()
@@ -24,6 +37,14 @@ export function HomePage() {
       product.title.toLowerCase().includes(query),
     )
   }, [products, search])
+
+  if (loading) {
+    return <LoadingSpinner />
+  }
+
+  if (error) {
+    return <ErrorMessage message={error} onRetry={loadProducts} />
+  }
 
   return (
     <section className="home">

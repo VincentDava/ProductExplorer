@@ -1,34 +1,60 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { fetchProductById } from '../api/products'
+import { ErrorMessage } from '../components/ErrorMessage'
+import { LoadingSpinner } from '../components/LoadingSpinner'
 import type { Product } from '../types/product'
 import './ProductDetailPage.css'
 
 export function ProductDetailPage() {
   const { id } = useParams<{ id: string }>()
-  const [product, setProduct] = useState<Product | null | undefined>(undefined)
+  const [product, setProduct] = useState<Product | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const loadProduct = async (productId: number) => {
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await fetchProductById(productId)
+      setProduct(data)
+    } catch (err) {
+      setProduct(null)
+      setError(err instanceof Error ? err.message : 'Failed to load product')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
     const productId = Number(id)
     if (Number.isNaN(productId)) {
-      setProduct(null)
+      setError('Invalid product ID')
+      setLoading(false)
       return
     }
-
-    fetchProductById(productId)
-      .then(setProduct)
-      .catch(() => {
-        setProduct(null)
-      })
+    loadProduct(productId)
   }, [id])
 
-  if (!product) {
+  if (loading) {
+    return <LoadingSpinner />
+  }
+
+  if (error || !product) {
     return (
       <div className="detail-page">
         <Link to="/" className="detail-page__back">
           ← Back to catalog
         </Link>
-        <p>Product not found.</p>
+        <ErrorMessage
+          message={error ?? 'Product not found'}
+          onRetry={() => {
+            const productId = Number(id)
+            if (!Number.isNaN(productId)) {
+              loadProduct(productId)
+            }
+          }}
+        />
       </div>
     )
   }
