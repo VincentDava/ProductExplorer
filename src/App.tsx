@@ -1,10 +1,13 @@
+import { HomePage } from './pages/HomePage'
 import './App.css'
 
 function App() {
   return (
     <div className="app">
-      <h1>ProductExplorer</h1>
-      <p>Test App</p>
+      <header className="app__header">
+        <h1>ProductExplorer</h1>
+      </header>
+      <HomePage />
     </div>
   )
 }
