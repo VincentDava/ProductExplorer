@@ -5,6 +5,8 @@
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   overflow: hidden;
+  text-decoration: none;
+  color: inherit;
 }
 
 .product-card__image-wrap {

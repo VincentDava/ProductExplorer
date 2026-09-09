@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import type { Product } from '../types/product'
 import './ProductCard.css'
 
@@ -7,7 +8,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   return (
-    <article className="product-card">
+    <Link to={`/products/${product.id}`} className="product-card">
       <div className="product-card__image-wrap">
         <img
           src={product.image}
@@ -24,6 +25,6 @@ export function ProductCard({ product }: ProductCardProps) {
           <span className="product-card__rating">★ {product.rating.rate}</span>
         </div>
       </div>
-    </article>
+    </Link>
   )
 }
